@@ -1,0 +1,18 @@
+body{
+    background-image: url("../images/background.jpg");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-color: black;
+    font-family: 'Walt Disney Script', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-shadow: 4px 4px 4px #aaa;
+
+}
+
+.main_container{
+    width: 50%;
+    border: 1px solid white;
+    padding: 1rem;
+    margin: 10% 0 0 10%;
+    color: white;
+}
