@@ -1,3 +1,11 @@
+// Create variables
+var clock_unning = false;
+var intervalId;
+var time = 30;
+var correct = 0;
+var incorrect = 0;
+var unanswered = 0;
+var question_counter = 0;
 var question_and_answers = 
 [
   {
@@ -7,7 +15,7 @@ var question_and_answers =
   answer_3:"Steamboat Willie",
   answer_4:"Magician Mickey",
   correct_answer:"Steamboat Willie",
-  image: "assets/images/answer_1.jpg"
+  image: "assets/images/answer_1.gif"
   },
   {
   question: "WHAT WAS ORIGINALLY A POTENTIAL NAME FOR MICKEY?", 
@@ -16,7 +24,7 @@ var question_and_answers =
   answer_3:"Goofie",
   answer_4:"Oswald",
   correct_answer:"Mortimer",
-  image: "assets/images/answer_2.jpg"
+  image: "assets/images/answer_2.gif"
   },
   {
   question: "WHO WAS THE FIRST PERSON TO VOICE MICKEY MOUSE?", 
@@ -25,7 +33,7 @@ var question_and_answers =
   answer_3:"Lillian Disney",
   answer_4:"Roy Disney",
   correct_answer:"Walt Disney",
-  image: "assets/images/answer_3.jpg"
+  image: "assets/images/answer_3.gif"
   },
   {
   question: "MICKEY’S FIRST WORDS WERE:", 
@@ -34,7 +42,7 @@ var question_and_answers =
   answer_3:"Aw, wow!",
   answer_4:"Gee whiz!",
   correct_answer:"Hot Dog!",
-  image: "assets/images/answer_4.jpg"
+  image: "assets/images/answer_4.gif"
   },
   {
   question: "WHAT WAS THE FIRST PIECE OF MICKEY MOUSE MERCHANDISE?", 
@@ -43,7 +51,7 @@ var question_and_answers =
   answer_3:"A tablet of paper",
   answer_4:"A cup and a saucer set",
   correct_answer:"A tablet of paper",
-  image: "assets/images/answer_5.jpg"
+  image: "assets/images/answer_5.gif"
   },
   {
   question: "WHAT IS THE NAME OF MICKEY’S BELOVED DOG?", 
@@ -52,7 +60,7 @@ var question_and_answers =
   answer_3:"Cosmo",
   answer_4:"Pluto",
   correct_answer:"Pluto",
-  image: "assets/images/answer_6.jpg"
+  image: "assets/images/answer_6.gif"
   },
   {
   question: "WHAT IS MICKEY MOUSE’S OFFICIAL ANNIVERSARY DATE?", 
@@ -61,49 +69,65 @@ var question_and_answers =
   answer_3:"November 18, 1928",
   answer_4:"October 7, 1928",
   correct_answer:"November 18, 1928",
-  image: "assets/images/answer_7.jpg"
+  image: "assets/images/answer_7.gif"
   },
 ];
 
-var correct_answers = 0;
-var incorrect_answers = 0;
-var answered_questions = 0;
-var unanswered_questions = 0;
-
-
-function question_generator(question_number)
+//write to the page the question
+function q_and_a_generator()
 {
-  $("#message").append('<p class = "question">'+question_and_answers[question_number].question+'</p>' );
-  $(".answers").append('<li class = "answer" value = "'+question_and_answers[question_number].answer_1+'">'+question_and_answers[question_number].answer_1+'</li>');
-  $(".answers").append('<li class = "answer" value = "'+question_and_answers[question_number].answer_2+'">'+question_and_answers[question_number].answer_2+'</li>');
-  $(".answers").append('<li class = "answer" value = "'+question_and_answers[question_number].answer_3+'">'+question_and_answers[question_number].answer_3+'</li>');
-  $(".answers").append('<li class = "answer" value = "'+question_and_answers[question_number].answer_4+'">'+question_and_answers[question_number].answer_4+'</li>');
+  $(".message").empty();
+  $(".answers").empty();
+  $(".message").append('<p class = "question">'+question_and_answers[question_counter].question+'</p>' );
+  $(".answers").append('<li class = "answer" value = "'+question_and_answers[question_counter].answer_1+'">'+question_and_answers[question_counter].answer_1+'</li>');
+  $(".answers").append('<li class = "answer" value = "'+question_and_answers[question_counter].answer_2+'">'+question_and_answers[question_counter].answer_2+'</li>');
+  $(".answers").append('<li class = "answer" value = "'+question_and_answers[question_counter].answer_3+'">'+question_and_answers[question_counter].answer_3+'</li>');
+  $(".answers").append('<li class = "answer" value = "'+question_and_answers[question_counter].answer_4+'">'+question_and_answers[question_counter].answer_4+'</li>');
+}
+q_and_a_generator()
+
+//logic for correct answers
+function correct_answer_logic()
+{
+  $(".message").empty();
+  $(".answers").empty();
+  $(".message").append('<p> Good Job Pal!</p>');
+  $(".answers").append('<p> The correct answer was: '+question_and_answers[question_counter].correct_answer+'</p>');
+  $(".answers").append('<img src='+question_and_answers[question_counter].image+' width="200rem">');
+  question_counter++;
+  correct ++;
+  console.log("correct");
+  //insert reset timer
+  // q_and_a_generator();
+}
+
+function incorrect_answer_logic()
+{
+  $(".message").empty();
+  $(".answers").empty();
+  $(".message").append('<p> Ooops, wrong answer!</p>');
+  $(".answers").append('<p> The correct answer was: '+question_and_answers[question_counter].correct_answer+'</p>');
+  $(".answers").append('<img src='+question_and_answers[question_counter].image+' width="200rem">');
+  question_counter++;
+  correct ++;
+  console.log("correct");
+  //insert reset timer
+  // q_and_a_generator();
 }
 
 
 
-$(document).ready(function(){ 
-  question_generator(correct_answers);
-$('.answer').click(function(event)
+//event handler
+$(".answers").on("click", function(event)
 {
-  answer_selected = event.target;
-  value_of_selected_answer = answer_selected.getAttribute('value');
-  if(value_of_selected_answer===question_and_answers[answered_questions].correct_answer)
+  var clicked_answer = event.target;
+  var value_of_clicked_answer = clicked_answer.getAttribute('value');
+  var correct_answer = question_and_answers[question_counter].correct_answer;
+  if(value_of_clicked_answer === correct_answer)
   {
-    console.log("correct answer");
-    correct_answers++
-    answered_questions++
-    console.log(correct_answers)
-    console.log(answered_questions)
-    $(".question").remove();
-    $(".answer").remove();
-    question_generator(answered_questions);
+    correct_answer_logic()
   } else
   {
-    console.log("incorrect");
+    incorrect_answer_logic()
   }
-});
-});
-
-
-
+})
