@@ -1,12 +1,12 @@
 // Create variables
-var intervalId;
-var question_timer = 15;
-var answer_timer = 5;
-var correct = 0;
-var incorrect = 0;
-var unanswered = 0;
-var question_counter = 0;
-var question_and_answers = 
+var intervalId; // variable to be use on time
+var question_timer = 15; // the lenght of time to answer each question
+var answer_timer = 6; // the lenght of time to review the answer and ready for the next question 
+var correct = 0; // counter to keep track of the correct answers
+var incorrect = 0; // counter to keep track of the incorrect answers
+var unanswered = 0; // counter to keep track of the unanswered questions
+var question_counter = 0;// counter to keep track of all the questions presented to the user.  this counter is also used and index to loop throught the questions
+var question_and_answers = //object that contains q&As and related objects
 [
   {
   question: "MICKEY MOUSE MADE HIS DEBUT IN WHAT ANIMATED SHORT FILM?", 
@@ -73,8 +73,19 @@ var question_and_answers =
   },
 ];
 
-//Q and A function generator
-function q_and_a_generator()
+function game_start()
+{
+  $(".message").append('<button> Start </button>');
+  $(".answers").append('<p> Once you click Start, you will have 15 seconds to answer each question of the game.  Ready? </p>');
+  $("button").on("click", function()
+  {
+    $(".message").empty();
+    q_and_a_generator()
+  })
+};
+game_start()
+
+function q_and_a_generator()//Q and A function generator.  This function populates the page with questions and answers
 {
   $(".message").empty();
   $(".answers").empty();
@@ -86,10 +97,8 @@ function q_and_a_generator()
   $(".answers").append('<li class = "answer" value = "'+question_and_answers[question_counter].answer_4+'">'+question_and_answers[question_counter].answer_4+'</li>');
   timer(question_decrement)
 }
-q_and_a_generator()
 
-//function that handles a correct answer
-function correct_answer_logic()
+function correct_answer_logic()//function that handles a correct answer.  This function executes the logic uppon the user clicking the correct answer. 
 {
   $(".message").empty();
   $(".answers").empty();
@@ -99,15 +108,14 @@ function correct_answer_logic()
   timer(answer_decrement);
   question_counter++;
   correct ++;
-  question_timer = 10;
-  answer_timer = 5;
+  question_timer = 15;
+  answer_timer = 6;
   console.log("correct");
-  setTimeout(q_and_a_generator, 5000);
+  setTimeout(q_and_a_generator, 6000);
 
 }
 
-//function that handles an incorrect answer
-function incorrect_answer_logic()
+function incorrect_answer_logic()//function that handles an incorrect answer.  This function executes the logic when the user clicks on the wrong answer or runs out of time 
 {
   $(".message").empty();
   $(".answers").empty();
@@ -118,40 +126,41 @@ function incorrect_answer_logic()
   question_counter++;
   incorrect ++;
   console.log("incorrect");
-  question_timer = 10;
-  answer_timer = 5;
-  setTimeout(q_and_a_generator, 5000);
+  question_timer = 15;
+  answer_timer = 6;
+  setTimeout(q_and_a_generator, 6000);
   ;
 }
 
-
-function timer(decrement) 
+function timer(decrement) // this function handles the timer for Q&A
 {
   clearInterval(intervalId);
   intervalId = setInterval(decrement, 1000);
 }
 
-function question_decrement() 
+function question_decrement()// this function handles the timer's logic fot the user to answer the question 
 {
   question_timer--;
   $(".timer").html("<h2> You have " + question_timer + " to answer the question</h2>");
   if (question_timer === 0)
   {
-    incorrect_answer_logic()
+    unanswered++;
+    incorrect_answer_logic();
   }
 }
-function answer_decrement() 
+
+function answer_decrement()// this function handles the timer logic to give the user enough time to review the correct answer 
 {
   answer_timer--;
   $(".timer").html("<h2> You next question comes in: " + answer_timer + " seconds</h2>");
 }
 
-function stop() {
+function stop() //this function stops the timer
+{
   clearInterval(intervalId);
 }
 
-
-//user click handler
+//The following click handler checks if the clicked answer matches the correct answer.  If the click is correct, it runs the correct_answer_logic function.  If not, it runs the incorrect_answer_logic 
 $(".answers").on("click", function(event)
 {
   stop();
