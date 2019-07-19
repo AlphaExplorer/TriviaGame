@@ -1,7 +1,7 @@
 // Create variables
-var clock_unning = false;
 var intervalId;
-var time = 30;
+var question_timer = 15;
+var answer_timer = 5;
 var correct = 0;
 var incorrect = 0;
 var unanswered = 0;
@@ -73,20 +73,22 @@ var question_and_answers =
   },
 ];
 
-//write to the page the question
+//Q and A function generator
 function q_and_a_generator()
 {
   $(".message").empty();
   $(".answers").empty();
+  $(".timer").html("<h2> You have "+ question_timer +" to answer the question</h2>")
   $(".message").append('<p class = "question">'+question_and_answers[question_counter].question+'</p>' );
   $(".answers").append('<li class = "answer" value = "'+question_and_answers[question_counter].answer_1+'">'+question_and_answers[question_counter].answer_1+'</li>');
   $(".answers").append('<li class = "answer" value = "'+question_and_answers[question_counter].answer_2+'">'+question_and_answers[question_counter].answer_2+'</li>');
   $(".answers").append('<li class = "answer" value = "'+question_and_answers[question_counter].answer_3+'">'+question_and_answers[question_counter].answer_3+'</li>');
   $(".answers").append('<li class = "answer" value = "'+question_and_answers[question_counter].answer_4+'">'+question_and_answers[question_counter].answer_4+'</li>');
+  timer(question_decrement)
 }
 q_and_a_generator()
 
-//logic for correct answers
+//function that handles a correct answer
 function correct_answer_logic()
 {
   $(".message").empty();
@@ -94,32 +96,65 @@ function correct_answer_logic()
   $(".message").append('<p> Good Job Pal!</p>');
   $(".answers").append('<p> The correct answer was: '+question_and_answers[question_counter].correct_answer+'</p>');
   $(".answers").append('<img src='+question_and_answers[question_counter].image+' width="200rem">');
+  timer(answer_decrement);
   question_counter++;
   correct ++;
+  question_timer = 10;
+  answer_timer = 5;
   console.log("correct");
-  //insert reset timer
-  // q_and_a_generator();
+  setTimeout(q_and_a_generator, 5000);
+
 }
 
+//function that handles an incorrect answer
 function incorrect_answer_logic()
 {
   $(".message").empty();
   $(".answers").empty();
-  $(".message").append('<p> Ooops, wrong answer!</p>');
+  $(".message").append('<p> Ooops,!</p>');
   $(".answers").append('<p> The correct answer was: '+question_and_answers[question_counter].correct_answer+'</p>');
   $(".answers").append('<img src='+question_and_answers[question_counter].image+' width="200rem">');
+  timer(answer_decrement);
   question_counter++;
-  correct ++;
-  console.log("correct");
-  //insert reset timer
-  // q_and_a_generator();
+  incorrect ++;
+  console.log("incorrect");
+  question_timer = 10;
+  answer_timer = 5;
+  setTimeout(q_and_a_generator, 5000);
+  ;
 }
 
 
+function timer(decrement) 
+{
+  clearInterval(intervalId);
+  intervalId = setInterval(decrement, 1000);
+}
 
-//event handler
+function question_decrement() 
+{
+  question_timer--;
+  $(".timer").html("<h2> You have " + question_timer + " to answer the question</h2>");
+  if (question_timer === 0)
+  {
+    incorrect_answer_logic()
+  }
+}
+function answer_decrement() 
+{
+  answer_timer--;
+  $(".timer").html("<h2> You next question comes in: " + answer_timer + " seconds</h2>");
+}
+
+function stop() {
+  clearInterval(intervalId);
+}
+
+
+//user click handler
 $(".answers").on("click", function(event)
 {
+  stop();
   var clicked_answer = event.target;
   var value_of_clicked_answer = clicked_answer.getAttribute('value');
   var correct_answer = question_and_answers[question_counter].correct_answer;
@@ -131,3 +166,4 @@ $(".answers").on("click", function(event)
     incorrect_answer_logic()
   }
 })
+
