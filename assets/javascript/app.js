@@ -26,70 +26,80 @@ var question_and_answers = //object that contains q&As and related objects
   correct_answer:"Mortimer",
   image: "assets/images/answer_2.gif"
   },
-  {
-  question: "WHO WAS THE FIRST PERSON TO VOICE MICKEY MOUSE?", 
-  answer_1:"Walt Disney",
-  answer_2:"Ub Iwerks",
-  answer_3:"Lillian Disney",
-  answer_4:"Roy Disney",
-  correct_answer:"Walt Disney",
-  image: "assets/images/answer_3.gif"
-  },
-  {
-  question: "MICKEY’S FIRST WORDS WERE:", 
-  answer_1:"Hot Dog!",
-  answer_2:"Oh, boy!",
-  answer_3:"Aw, wow!",
-  answer_4:"Gee whiz!",
-  correct_answer:"Hot Dog!",
-  image: "assets/images/answer_4.gif"
-  },
-  {
-  question: "WHAT WAS THE FIRST PIECE OF MICKEY MOUSE MERCHANDISE?", 
-  answer_1:"An ears hat",
-  answer_2:"A wrist watch",
-  answer_3:"A tablet of paper",
-  answer_4:"A cup and a saucer set",
-  correct_answer:"A tablet of paper",
-  image: "assets/images/answer_5.gif"
-  },
-  {
-  question: "WHAT IS THE NAME OF MICKEY’S BELOVED DOG?", 
-  answer_1:"Saturn",
-  answer_2:"Asteroid",
-  answer_3:"Cosmo",
-  answer_4:"Pluto",
-  correct_answer:"Pluto",
-  image: "assets/images/answer_6.gif"
-  },
-  {
-  question: "WHAT IS MICKEY MOUSE’S OFFICIAL ANNIVERSARY DATE?", 
-  answer_1:"November 21, 1928",
-  answer_2:"October 13, 1928",
-  answer_3:"November 18, 1928",
-  answer_4:"October 7, 1928",
-  correct_answer:"November 18, 1928",
-  image: "assets/images/answer_7.gif"
-  },
+  // {
+  // question: "WHO WAS THE FIRST PERSON TO VOICE MICKEY MOUSE?", 
+  // answer_1:"Walt Disney",
+  // answer_2:"Ub Iwerks",
+  // answer_3:"Lillian Disney",
+  // answer_4:"Roy Disney",
+  // correct_answer:"Walt Disney",
+  // image: "assets/images/answer_3.gif"
+  // },
+  // {
+  // question: "MICKEY’S FIRST WORDS WERE:", 
+  // answer_1:"Hot Dog!",
+  // answer_2:"Oh, boy!",
+  // answer_3:"Aw, wow!",
+  // answer_4:"Gee whiz!",
+  // correct_answer:"Hot Dog!",
+  // image: "assets/images/answer_4.gif"
+  // },
+  // {
+  // question: "WHAT WAS THE FIRST PIECE OF MICKEY MOUSE MERCHANDISE?", 
+  // answer_1:"An ears hat",
+  // answer_2:"A wrist watch",
+  // answer_3:"A tablet of paper",
+  // answer_4:"A cup and a saucer set",
+  // correct_answer:"A tablet of paper",
+  // image: "assets/images/answer_5.gif"
+  // },
+  // {
+  // question: "WHAT IS THE NAME OF MICKEY’S BELOVED DOG?", 
+  // answer_1:"Saturn",
+  // answer_2:"Asteroid",
+  // answer_3:"Cosmo",
+  // answer_4:"Pluto",
+  // correct_answer:"Pluto",
+  // image: "assets/images/answer_6.gif"
+  // },
+  // {
+  // question: "WHAT IS MICKEY MOUSE’S OFFICIAL ANNIVERSARY DATE?", 
+  // answer_1:"November 21, 1928",
+  // answer_2:"October 13, 1928",
+  // answer_3:"November 18, 1928",
+  // answer_4:"October 7, 1928",
+  // correct_answer:"November 18, 1928",
+  // image: "assets/images/answer_7.gif"
+  // },
 ];
 
 function game_start()
 {
-  $(".message").append('<button> Start </button>');
-  $(".answers").append('<p> Once you click Start, you will have 15 seconds to answer each question of the game.  Ready? </p>');
+  $(".message").append('<p> Once you click Go!, you will have 15 seconds to answer each question of the game.</p>');
+  $(".message").append('<button> Go! </button>');
   $("button").on("click", function()
   {
-    $(".message").empty();
     q_and_a_generator()
   })
 };
 game_start()
 
-function q_and_a_generator()//Q and A function generator.  This function populates the page with questions and answers
+function empty_board()
 {
   $(".message").empty();
   $(".answers").empty();
-  $(".timer").html("<h2> You have "+ question_timer +" to answer the question</h2>")
+  $(".timer").empty();
+}
+function timer_reset()
+{
+  question_timer = 15;
+  answer_timer = 6;
+};
+
+function q_and_a_generator()//Q and A function generator.  This function populates the page with questions and answers
+{
+  empty_board()
+  $(".timer").html("<p>Time remaining: 15 seconds</p>");
   $(".message").append('<p class = "question">'+question_and_answers[question_counter].question+'</p>' );
   $(".answers").append('<li class = "answer" value = "'+question_and_answers[question_counter].answer_1+'">'+question_and_answers[question_counter].answer_1+'</li>');
   $(".answers").append('<li class = "answer" value = "'+question_and_answers[question_counter].answer_2+'">'+question_and_answers[question_counter].answer_2+'</li>');
@@ -100,36 +110,50 @@ function q_and_a_generator()//Q and A function generator.  This function populat
 
 function correct_answer_logic()//function that handles a correct answer.  This function executes the logic uppon the user clicking the correct answer. 
 {
-  $(".message").empty();
-  $(".answers").empty();
-  $(".message").append('<p> Good Job Pal!</p>');
-  $(".answers").append('<p> The correct answer was: '+question_and_answers[question_counter].correct_answer+'</p>');
-  $(".answers").append('<img src='+question_and_answers[question_counter].image+' width="200rem">');
-  timer(answer_decrement);
-  question_counter++;
-  correct ++;
-  question_timer = 15;
-  answer_timer = 6;
-  console.log("correct");
-  setTimeout(q_and_a_generator, 6000);
+    stop_timer()
+    question_counter++;
+    correct ++;
+    console.log(question_counter)
+    empty_board()
+    $(".message").append('<p> Good Job Pal!</p>');
+    $(".message").append('<p> The correct answer was: '+question_and_answers[question_counter-1].correct_answer+'</p>');
+    $(".message").append('<img src='+question_and_answers[question_counter-1].image+' width="200rem">');
+    console.log("correct");
+    timer_reset();
+    timer(answer_decrement);
+    setTimeout(q_and_a_generator, 6000);
 
 }
 
 function incorrect_answer_logic()//function that handles an incorrect answer.  This function executes the logic when the user clicks on the wrong answer or runs out of time 
 {
-  $(".message").empty();
-  $(".answers").empty();
-  $(".message").append('<p> Ooops,!</p>');
-  $(".answers").append('<p> The correct answer was: '+question_and_answers[question_counter].correct_answer+'</p>');
-  $(".answers").append('<img src='+question_and_answers[question_counter].image+' width="200rem">');
-  timer(answer_decrement);
-  question_counter++;
-  incorrect ++;
-  console.log("incorrect");
-  question_timer = 15;
-  answer_timer = 6;
-  setTimeout(q_and_a_generator, 6000);
-  ;
+    stop_timer()
+    question_counter++;
+    incorrect ++;
+    console.log(question_counter)
+    empty_board()
+    $(".message").append('<p> Ooops,!</p>');
+    $(".message").append('<p> The correct answer was: '+question_and_answers[question_counter-1].correct_answer+'</p>');
+    $(".message").append('<img src='+question_and_answers[question_counter-1].image+' width="200rem">');
+    console.log("incorrect");
+    timer_reset();
+    timer(answer_decrement);
+    setTimeout(q_and_a_generator, 6000);
+}
+
+function out_of_time_logic()//function that handles an running out of time.   
+{
+    question_counter++;
+    unanswered ++;
+    console.log(question_counter)
+    empty_board()
+    $(".message").append('<p> Sorry, you ran out of time,!</p>');
+    $(".message").append('<p> The correct answer was: '+question_and_answers[question_counter-1].correct_answer+'</p>');
+    $(".message").append('<img src='+question_and_answers[question_counter-1].image+' width="200rem">');
+    console.log("unanswered");
+    timer_reset();
+    timer(answer_decrement);
+    setTimeout(q_and_a_generator, 6000);
 }
 
 function timer(decrement) // this function handles the timer for Q&A
@@ -141,11 +165,12 @@ function timer(decrement) // this function handles the timer for Q&A
 function question_decrement()// this function handles the timer's logic fot the user to answer the question 
 {
   question_timer--;
-  $(".timer").html("<h2> You have " + question_timer + " to answer the question</h2>");
-  if (question_timer === 0)
+  $(".timer").html("<p>Time remaining: " + question_timer + " seconds</p>");
+  if (question_timer <= 0)
   {
     unanswered++;
-    incorrect_answer_logic();
+    stop_timer()
+    out_of_time_logic();
   }
 }
 
@@ -155,24 +180,25 @@ function answer_decrement()// this function handles the timer logic to give the 
   $(".timer").html("<h2> You next question comes in: " + answer_timer + " seconds</h2>");
 }
 
-function stop() //this function stops the timer
-{
+function stop_timer() {
   clearInterval(intervalId);
 }
 
 //The following click handler checks if the clicked answer matches the correct answer.  If the click is correct, it runs the correct_answer_logic function.  If not, it runs the incorrect_answer_logic 
 $(".answers").on("click", function(event)
 {
-  stop();
   var clicked_answer = event.target;
   var value_of_clicked_answer = clicked_answer.getAttribute('value');
   var correct_answer = question_and_answers[question_counter].correct_answer;
-  if(value_of_clicked_answer === correct_answer)
-  {
+    if(value_of_clicked_answer === correct_answer)
+    {
     correct_answer_logic()
-  } else
-  {
+    } else
+    {
     incorrect_answer_logic()
-  }
-})
+    }
+});
+
+
+
 
