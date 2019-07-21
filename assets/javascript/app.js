@@ -1,12 +1,12 @@
-// Create variables
-var intervalId; // variable to be use on time
-var question_timer = 15; // the lenght of time to answer each question
-var answer_timer = 6; // the lenght of time to review the answer and ready for the next question 
-var correct = 0; // counter to keep track of the correct answers
-var incorrect = 0; // counter to keep track of the incorrect answers
-var unanswered = 0; // counter to keep track of the unanswered questions
-var question_counter = 0;// counter to keep track of all the questions presented to the user.  this counter is also used and index to loop throught the questions
-var question_and_answers = //object that contains q&As and related objects
+//--------------------VARIABLE DECLARATION--------------------
+var intervalId;
+var question_timer = 15;
+var answer_timer = 6; 
+var correct = 0;
+var incorrect = 0;
+var unanswered = 0;
+var question_counter = 0;
+var question_and_answers =
 [
   {
   question: "MICKEY MOUSE MADE HIS DEBUT IN WHAT ANIMATED SHORT FILM?", 
@@ -72,8 +72,8 @@ var question_and_answers = //object that contains q&As and related objects
   image: "assets/images/answer_7.gif"
   },
 ];
-
-function game_start()
+//--------------------GAME FUNCTIONS & LOGIC-------------------
+function game_start()//Initiates game
 {
   $(".message").append('<p> Once you click Go!, you will have 15 seconds to answer each question of the game.</p>');
   $(".message").append('<button> Go! </button>');
@@ -82,21 +82,38 @@ function game_start()
     q_and_a_generator()
   })
 };
-game_start()
-
-function empty_board()
+function empty_board()//Empties the game board(removes Divs)
 {
   $(".message").empty();
   $(".answers").empty();
   $(".timer").empty();
 }
-function timer_reset()
+function timer_reset()//Resets the timer back to global variable initial values
 {
   question_timer = 15;
   answer_timer = 6;
+}
+function end_of_game_logic()//Handles what happens after the last question
+{
+  empty_board();
+  $(".message").append('<p class = "question">Congrats, you reached the end of the game</p>' );
+  $(".message").append('<p> Resutls: </p>');
+  $(".message").append('<p> Correct: '+correct+'</p>');
+  $(".message").append('<p> Incorrect: '+incorrect+'</p>');
+  $(".message").append('<p> Unanswered: '+unanswered+'</p>');
+  $(".message").append('<p> Click the button below to reset the game </p>');
+  $(".message").append('<button> Click! </button>');
+  $("button").on("click", function()
+  {
+    correct = 0; // counter to keep track of the correct answers
+    incorrect = 0; // counter to keep track of the incorrect answers
+    unanswered = 0;
+    question_counter = 0
+    empty_board();
+    game_start();
+  })
 };
-
-function q_and_a_generator()//Q and A function generator.  This function populates the page with questions and answers
+function q_and_a_generator()//loads the question and answers
 {
   empty_board()
   $(".timer").html("<p>Time remaining: 15 seconds</p>");
@@ -107,85 +124,101 @@ function q_and_a_generator()//Q and A function generator.  This function populat
   $(".answers").append('<li class = "answer" value = "'+question_and_answers[question_counter].answer_4+'">'+question_and_answers[question_counter].answer_4+'</li>');
   timer(question_decrement)
 }
-
-function correct_answer_logic()//function that handles a correct answer.  This function executes the logic uppon the user clicking the correct answer. 
+function correct_answer_logic()//handles the logic of a correct answer 
 {
-    stop_timer()
+    stop_timer();
     question_counter++;
     correct ++;
-    console.log(question_counter)
-    empty_board()
+    console.log(question_counter);
+    console.log("correct");
+    empty_board();
     $(".message").append('<p> Good Job Pal!</p>');
     $(".message").append('<p> The correct answer was: '+question_and_answers[question_counter-1].correct_answer+'</p>');
-    $(".message").append('<img src='+question_and_answers[question_counter-1].image+' width="200rem">');
-    console.log("correct");
+    $(".message").append('<img src='+question_and_answers[question_counter-1].image+' width="25%">');
+    if(question_counter===question_and_answers.length)
+    {
+      setTimeout(end_of_game_logic, 4000)
+    } else 
+    {
     timer_reset();
     timer(answer_decrement);
     setTimeout(q_and_a_generator, 6000);
-
+    }
 }
 
-function incorrect_answer_logic()//function that handles an incorrect answer.  This function executes the logic when the user clicks on the wrong answer or runs out of time 
+function incorrect_answer_logic()//handles the logic of an incorrect answer 
 {
-    stop_timer()
+    stop_timer();
     question_counter++;
     incorrect ++;
-    console.log(question_counter)
-    empty_board()
+    console.log(question_counter);
+    console.log("incorrect");
+    empty_board();
     $(".message").append('<p> Ooops,!</p>');
     $(".message").append('<p> The correct answer was: '+question_and_answers[question_counter-1].correct_answer+'</p>');
-    $(".message").append('<img src='+question_and_answers[question_counter-1].image+' width="200rem">');
-    console.log("incorrect");
+    $(".message").append('<img src='+question_and_answers[question_counter-1].image+' width="25%">');
+    if(question_counter===question_and_answers.length)
+    {
+      setTimeout(end_of_game_logic, 4000)
+    } else 
+    {
     timer_reset();
     timer(answer_decrement);
     setTimeout(q_and_a_generator, 6000);
+    }
 }
 
-function out_of_time_logic()//function that handles an running out of time.   
+function out_of_time_logic()//handles the logic when user runs our of time answering   
 {
-    question_counter++;
-    unanswered ++;
-    console.log(question_counter)
-    empty_board()
-    $(".message").append('<p> Sorry, you ran out of time,!</p>');
-    $(".message").append('<p> The correct answer was: '+question_and_answers[question_counter-1].correct_answer+'</p>');
-    $(".message").append('<img src='+question_and_answers[question_counter-1].image+' width="200rem">');
+    stop_timer();
+    question_counter++; 
+    unanswered++;
+    console.log(question_counter);
     console.log("unanswered");
+    empty_board();
+    $(".message").append('<p> Sorry, you ran out of time!</p>');
+    $(".message").append('<p> The correct answer was: '+question_and_answers[question_counter-1].correct_answer+'</p>');
+    $(".message").append('<img src='+question_and_answers[question_counter-1].image+' width="25%">');
+    if(question_counter===question_and_answers.length)
+    {
+      setTimeout(end_of_game_logic, 4000)
+    } else 
+    {
     timer_reset();
     timer(answer_decrement);
     setTimeout(q_and_a_generator, 6000);
+    }
 }
 
-function timer(decrement) // this function handles the timer for Q&A
+function timer(decrement) //handles the rate of time decrememnt
 {
   clearInterval(intervalId);
   intervalId = setInterval(decrement, 1000);
 }
 
-function question_decrement()// this function handles the timer's logic fot the user to answer the question 
+function question_decrement()//handles the logic of the question timer
 {
   question_timer--;
   $(".timer").html("<p>Time remaining: " + question_timer + " seconds</p>");
   if (question_timer <= 0)
   {
-    unanswered++;
-    stop_timer()
     out_of_time_logic();
   }
 }
 
-function answer_decrement()// this function handles the timer logic to give the user enough time to review the correct answer 
+function answer_decrement()//handles the logic of the answer timer 
 {
   answer_timer--;
   $(".timer").html("<h2> You next question comes in: " + answer_timer + " seconds</h2>");
 }
 
-function stop_timer() {
+function stop_timer() //stops the timer
+{
   clearInterval(intervalId);
 }
 
-//The following click handler checks if the clicked answer matches the correct answer.  If the click is correct, it runs the correct_answer_logic function.  If not, it runs the incorrect_answer_logic 
-$(".answers").on("click", function(event)
+
+$(".answers").on("click", function(event)//handles the user clicks
 {
   var clicked_answer = event.target;
   var value_of_clicked_answer = clicked_answer.getAttribute('value');
@@ -199,6 +232,6 @@ $(".answers").on("click", function(event)
     }
 });
 
-
+game_start() //Game initiation
 
 
