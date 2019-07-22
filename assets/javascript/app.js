@@ -1,6 +1,6 @@
 //--------------------VARIABLE DECLARATION--------------------
 var intervalId;
-var question_timer = 15;
+var question_timer = 16;
 var answer_timer = 6; 
 var correct = 0;
 var incorrect = 0;
@@ -90,7 +90,7 @@ function empty_board()//Empties the game board(removes Divs)
 }
 function timer_reset()//Resets the timer back to global variable initial values
 {
-  question_timer = 15;
+  question_timer = 16;
   answer_timer = 6;
 }
 function end_of_game_logic()//Handles what happens after the last question
@@ -116,7 +116,7 @@ function end_of_game_logic()//Handles what happens after the last question
 function q_and_a_generator()//loads the question and answers
 {
   empty_board()
-  $(".timer").html("<p>Time remaining: 15 seconds</p>");
+  // $(".timer").html("<p>Time remaining: 15 seconds</p>");
   $(".message").append('<p class = "question">'+question_and_answers[question_counter].question+'</p>' );
   $(".answers").append('<li class = "answer" value = "'+question_and_answers[question_counter].answer_1+'">'+question_and_answers[question_counter].answer_1+'</li>');
   $(".answers").append('<li class = "answer" value = "'+question_and_answers[question_counter].answer_2+'">'+question_and_answers[question_counter].answer_2+'</li>');
@@ -199,7 +199,7 @@ function timer(decrement) //handles the rate of time decrememnt
 function question_decrement()//handles the logic of the question timer
 {
   question_timer--;
-  $(".timer").html("<p>Time remaining:</p><p>" + question_timer + "</p><p>seconds</p>");
+  $(".timer").html("<p>Time remaining:<br>" + question_timer + "<br>seconds</p>");
   if (question_timer <= 0)
   {
     out_of_time_logic();
@@ -210,7 +210,7 @@ function answer_decrement()//handles the logic of the answer timer
 {
   answer_timer--;
   $(".timer").html("<p>Next question in:</p><p>" + answer_timer + "</p><p>seconds</p>");
-}
+} 
 
 function stop_timer() //stops the timer
 {
