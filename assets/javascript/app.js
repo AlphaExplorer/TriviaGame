@@ -9,7 +9,7 @@ var question_counter = 0;
 var question_and_answers =
 [
   {
-  question: "MICKEY MOUSE MADE HIS DEBUT IN WHAT ANIMATED SHORT FILM?", 
+  question: "Mickey Mouse made his debut in what animated short film??", 
   answer_1:"Canine Caddy",
   answer_2:"How to Fish",
   answer_3:"Steamboat Willie",
@@ -18,7 +18,7 @@ var question_and_answers =
   image: "assets/images/answer_1.gif"
   },
   {
-  question: "WHAT WAS ORIGINALLY A POTENTIAL NAME FOR MICKEY?", 
+  question: "What was originally a potential name for Mickey?", 
   answer_1:"Michael",
   answer_2:"Mortimer",
   answer_3:"Goofie",
@@ -27,7 +27,7 @@ var question_and_answers =
   image: "assets/images/answer_2.gif"
   },
   {
-  question: "WHO WAS THE FIRST PERSON TO VOICE MICKEY MOUSE?", 
+  question: "Who was the first person to voice Mickey Mouse?", 
   answer_1:"Walt Disney",
   answer_2:"Ub Iwerks",
   answer_3:"Lillian Disney",
@@ -36,7 +36,7 @@ var question_and_answers =
   image: "assets/images/answer_3.gif"
   },
   {
-  question: "MICKEY’S FIRST WORDS WERE:", 
+  question: "Mickey's first words were:", 
   answer_1:"Hot Dog!",
   answer_2:"Oh, boy!",
   answer_3:"Aw, wow!",
@@ -45,7 +45,7 @@ var question_and_answers =
   image: "assets/images/answer_4.gif"
   },
   {
-  question: "WHAT WAS THE FIRST PIECE OF MICKEY MOUSE MERCHANDISE?", 
+  question: "What was the first piece of Mickey Mouse merchandise?", 
   answer_1:"An ears hat",
   answer_2:"A wrist watch",
   answer_3:"A tablet of paper",
@@ -54,7 +54,7 @@ var question_and_answers =
   image: "assets/images/answer_5.gif"
   },
   {
-  question: "WHAT IS THE NAME OF MICKEY’S BELOVED DOG?", 
+  question: "What is the name of Mickey's beloved dog?", 
   answer_1:"Saturn",
   answer_2:"Asteroid",
   answer_3:"Cosmo",
@@ -63,7 +63,7 @@ var question_and_answers =
   image: "assets/images/answer_6.gif"
   },
   {
-  question: "WHAT IS MICKEY MOUSE’S OFFICIAL ANNIVERSARY DATE?", 
+  question: "What is Mickey Mouse's official anniversay date?", 
   answer_1:"November 21, 1928",
   answer_2:"October 13, 1928",
   answer_3:"November 18, 1928",
@@ -75,7 +75,7 @@ var question_and_answers =
 //--------------------GAME FUNCTIONS & LOGIC-------------------
 function game_start()//Initiates game
 {
-  $(".message").append('<p> Once you click Go!, you will have 15 seconds to answer each question of the game.</p>');
+  $(".message").append('<p> Once you click Go!, you will have 15 seconds to answer each question of the game. Ready?</p>');
   $(".message").append('<button> Go! </button>');
   $("button").on("click", function()
   {
@@ -199,7 +199,7 @@ function timer(decrement) //handles the rate of time decrememnt
 function question_decrement()//handles the logic of the question timer
 {
   question_timer--;
-  $(".timer").html("<p>Time remaining: " + question_timer + " seconds</p>");
+  $(".timer").html("<p>Time remaining:</p><p>" + question_timer + "</p><p>seconds</p>");
   if (question_timer <= 0)
   {
     out_of_time_logic();
@@ -209,7 +209,7 @@ function question_decrement()//handles the logic of the question timer
 function answer_decrement()//handles the logic of the answer timer 
 {
   answer_timer--;
-  $(".timer").html("<h2> You next question comes in: " + answer_timer + " seconds</h2>");
+  $(".timer").html("<p>Next question in:</p><p>" + answer_timer + "</p><p>seconds</p>");
 }
 
 function stop_timer() //stops the timer

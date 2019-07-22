@@ -1,22 +1,116 @@
 body{
     background-image: url("../images/background.jpg");
-    background-size: 100%;
+    background-size: auto;
+    background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-color: black;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    text-shadow: 4px 4px 4px #aaa;
+}
 
+.title{
+    font-family: 'WaltographRegular'; 
+    font-weight: normal; 
+    font-style: normal; text-align: center;
+    font-size: 4rem;
+    position: fixed;
+    left: 0;
+    top: 2rem;
+    width: 100%;
+    color: rgb(242,5,5);
 }
 
 .main_container{
+    position: absolute;
+    top:8rem;
+    left: 25%;
+    right: 25%;
     width: 50%;
-    border: 1px solid white;
-    padding: 1rem;
-    margin: 12% 0 0 10%;
+    /* border: 1px solid white; */
     color: white;
+
 }
+.timer{
+    position: absolute;
+    bottom:9rem;
+    left: 25%;
+    right: 25%;
+    width: 50%;
+    color: white;
+    font-family: 'WaltographRegular'; 
+    font-weight: normal; 
+    font-style: normal; 
+    font-size: 2rem;
+    text-align: center;
+} 
+
+p { 
+    font-family: 'WaltographRegular'; 
+    font-weight: normal; 
+    font-style: normal; 
+    font-size: 2rem;
+    text-align: center;
+ }
+
+ button{
+    margin-left: auto;
+    justify-content: center;
+    width: 8rem;
+    font-family: 'WaltographRegular';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 1.5rem;
+    display: flex;
+    margin-right: auto;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    border: none;
+    color: white;
+    cursor: pointer;
+    background-color: transparent; 
+    border: 2px solid white;
+ }
+
+ button:hover {
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    background-color: rgb(242,5,5);
+    color: white;
+  }
+
 
 .answers{
     display: block;
+    font-family: 'WaltographRegular'; 
+    font-weight: normal; 
+    font-style: normal; 
+    font-size: 2rem;
+    text-align: center;
+    margin-top: 1rem;
+    cursor: pointer;
 }
+
+.answer:hover {
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    color: rgb(242,5,5);
+  }
+
+.footer{
+    font-family: 'WaltographRegular'; 
+    font-weight: normal; 
+    font-style: normal; text-align: center;
+    font-size: 3rem;
+    position: fixed;
+    left: 0;
+    bottom: 2rem;
+    width: 100%;
+    color: rgb(249,215,11);
+}
+
+img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+
